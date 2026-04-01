@@ -5,7 +5,10 @@
 
 Your job is to determine whether a user inputted number is prime or not. Here is how you will do that.
 
-1. Create a function called `evenly_divides(a: int, b: int) -> bool` that returns true if `a` evenly divides `b`. For example 6 evenly divides 36, but 4 does not evenly divide 2 (make sure that sentence makes sense) **HINT** Use the `%` operator.
+1. Create a function called `evenly_divides(a: int, b: int) -> bool` that returns true if `a` evenly divides `b`. For example 6 evenly divides 36, but 4 does not evenly divide 2 (make sure that sentence makes sense)
+
+    **HINT** Use the `%` operator.
+
 2. Create a function called `is_prime(n: int) -> bool` that determines if the number is prime. To do so, follow the pseudo code below
 
 ```plaintext
