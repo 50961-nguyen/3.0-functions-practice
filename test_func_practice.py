@@ -3,8 +3,6 @@ import ast
 import inspect
 import textwrap
 
-from func_practice import evenly_divides, is_prime, main
-
 # ── helpers ──────────────────────────────────────────────────────────────────
 
 def _source() -> str:
@@ -167,6 +165,8 @@ class TestIPOComments:
     (7, 36, False),
 ])
 def test_evenly_divides(a, b, result):
+    from func_practice import evenly_divides
+
     assert evenly_divides(a, b) == result
 
 @pytest.mark.parametrize("a,result", [
@@ -176,9 +176,13 @@ def test_evenly_divides(a, b, result):
     (357, False)
 ])
 def test_is_prime(a, result):
+    from func_practice import is_prime
+
     assert is_prime(a) == result
 
 def test_main(capsys, monkeypatch):
+    from func_practice import main
+
     monkeypatch.setattr("builtins.input", lambda _: "17")
     main()
     captured = capsys.readouterr()

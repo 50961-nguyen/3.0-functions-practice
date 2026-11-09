@@ -1,0 +1,90 @@
+name: Autograding Tests
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  autograding:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install pytest
+        run: python -m pip install pytest
+
+      - name: Test header comments
+        id: header
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Header comments
+          command: python -m pytest -q test_func_practice.py::TestHeaderComments
+          timeout: 1
+          max-score: 10
+
+      - name: Test docstrings
+        id: docstrings
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Docstrings
+          command: python -m pytest -q test_func_practice.py::TestDocstrings
+          timeout: 1
+          max-score: 25
+
+      - name: Test IPO comments
+        id: ipo
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: IPO comments
+          command: python -m pytest -q test_func_practice.py::TestIPOComments
+          timeout: 1
+          max-score: 15
+
+      - name: Test evenly_divides
+        id: divides
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: evenly_divides
+          command: python -m pytest -q test_func_practice.py::test_evenly_divides
+          timeout: 1
+          max-score: 20
+
+      - name: Test is_prime
+        id: prime
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: is_prime
+          command: python -m pytest -q test_func_practice.py::test_is_prime
+          timeout: 1
+          max-score: 20
+
+      - name: Test main
+        id: main
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: main
+          command: python -m pytest -q test_func_practice.py::test_main
+          timeout: 1
+          max-score: 10
+
+      - name: Report autograding results
+        uses: classroom-resources/autograding-grading-reporter@v1
+        env:
+          HEADER_RESULTS: "${{ steps.header.outputs.result }}"
+          DOCSTRINGS_RESULTS: "${{ steps.docstrings.outputs.result }}"
+          IPO_RESULTS: "${{ steps.ipo.outputs.result }}"
+          DIVIDES_RESULTS: "${{ steps.divides.outputs.result }}"
+          PRIME_RESULTS: "${{ steps.prime.outputs.result }}"
+          MAIN_RESULTS: "${{ steps.main.outputs.result }}"
+        with:
+          runners: header,docstrings,ipo,divides,prime,main
